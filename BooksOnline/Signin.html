@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+      
+        #A{
+            color: Purple;
+            font-size: 30px;
+            
+        }
+        body{
+            background-image: url(backgroundlogin.jpg);
+            background-repeat: no-repeat;
+            background-size: 100% ;
+    
+            
+        }
+        #B{
+            /* float: center; */
+           background-color: aliceblue;
+            position: absolute;
+            width: 400px;
+            height: 500px;
+            right: 38%;
+            opacity: 0.8;
+            top: 10%;
+            border-radius: 40px;
+        }
+    input{
+        border-style:hidden;
+        border-bottom-style: inset;
+        /* border-radius: 20px; */
+        padding: 10px 15px;
+        border-radius: 10px;   
+    }
+    #C{
+        position: absolute;
+        right: 70px;  
+    } 
+    .SUBMIT{
+        
+        width: 40%;
+        border: none;
+        border-radius: 30px;
+        background: linear-gradient(to left, rgba(95,255,255,1) 0%, rgba(113,79,235,1) 100%);;
+        padding: 10px 25px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+    }
+    button{
+        width: 30%;
+        border: none;
+        border-radius: 30px;
+        background: linear-gradient(to right, rgba(95,255,255,1) 0%, rgba(113,79,235,1) 100%);
+        padding: 1px 2px;
+        font-size: 15px;
+        cursor: pointer;
+        text-align: center;
+    }
+    a{
+        text-decoration: none;
+    }
+    .HOME{
+    font-size: 40px;
+}
+.Sign{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+    </style>
+</head>
+<body>
+    <a href="Html.html" class="HOME"><ion-icon name="home-outline"></ion-icon></a>
+    <form action="Payment.html"  onsubmit="return validate()" align="center" id="B">
+        <br>
+        <br>
+        <legend id="A">Login</legend>
+        <br>
+        Email:
+        <br>
+        
+        <input type="email" name="Email" id="Email" placeholder="Email" autocomplete="none" size="30" >
+        <p id="Emailerr"></p>
+        <br>
+        Password: <br>
+        <br>
+        <input type="password" name="" id="Password" placeholder="Type in your password" size="30">
+        <p id="Passerr"></p>
+        <a href="signup.html" id="C">forgot password?</a>
+        <br><br>
+        <input type="submit" name="" id="" value="Log in" class="SUBMIT" >
+        
+        <br>
+        <br>
+        <p>Or  <br>
+            <button><p class="Sign"><a href="Signup.php">Sign Up</p></a></p></button>
+    </form>
+    <script>
+        function validate()
+        {
+        let email=document.getElementById('Email').value;
+            let emailreg=/[a-z A-Z 0-9]\.\[0-9]\@gmail\.com/;
+            if(email===''||email==null)
+            {
+                document.getElementById('Emailerr').innerHTML="Required!";
+                return false;
+            }
+            
+       
+        else if(email.search(emailreg)<0)
+        {
+            document.getElementById('Emailerr').innerHTML="Email pattern is not matched";
+            return false;
+        }
+    
+      let pass=document.getElementById('Password').value;
+      let passreg=/[0-9]{3}[A-Z]{3}/;
+      if(pass===''||pass===null)
+      {
+            document.getElementById('Passerr').innerHTML='*Password can not be empty';
+            return false;
+      }
+      else if(pass.search(passreg)<0)
+      {
+            document.getElementById('Passerr').innerHTML='*Password pattern is not matched';
+            return false;
+      }
+    }
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+   
+</body>
+</html>
