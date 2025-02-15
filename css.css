@@ -1,0 +1,212 @@
+header{
+    color: black;
+    text-align: center;
+    padding: 50px;
+    font-size: 50px;
+    font-style: italic;
+    font-family: fantasy;
+}
+img{
+    float: right;
+}
+footer{
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    font-size: 10px;
+    font-family: fantasy;
+}
+nav{
+  background-color:lightcoral;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+input#A{
+    background-color:antiquewhite;
+    position: absolute;
+    float: right;
+    right: 10px;
+    top: 200px;
+    border-radius: 10px;
+    height: 25px;
+    border: none;
+    border-bottom-style: outset;
+}
+body{
+    gap: 5px;
+}
+a.A{
+  background-color: transparent;
+    color: black;
+    text-decoration: none;
+    padding: 5px 5px;
+    font-family: fantasy;
+    font-size: 20px;
+}
+a.A:hover{
+    background-color: red;
+}
+div.Contact{
+  background: linear-gradient(to right, #3399ff 0%, #ff9966 100%);
+    font-family: fantasy;
+    font-size: 20px;
+    text-align: center;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    
+}
+.About{
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 25px;
+  width: 40%;
+  border: 1px white solid;
+  transition: all 0.3s;
+  background-color: rgb(250, 235, 215,0.5);
+}
+.About:hover{
+  transform: scale(1.1);
+  cursor: pointer;
+}
+  ul, li {
+    padding: 0;
+    list-style: none;
+}
+nav ul {
+    display: flex;
+}
+
+nav ul li {
+    padding: 15px;
+    background-color: transparent;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: red;
+}
+a#ARROW{
+  padding: 5px;
+  border-radius: 10px;
+  background-color: red;
+  color: white;
+}
+h2{
+  font-family: cursive;
+  font-size: 30px;
+  color: black;
+}
+body{
+  background: linear-gradient(to left, #3399ff 0%, #ff9966 100%);
+  position: relative;
+}
+.IMG{
+position: absolute;
+left: 0;
+bottom: 0;
+z-index: -2;
+opacity: 0.2;
+width: 100%;
+}
+.Story{
+  font-family: cursive;
+  font-size: 25px;
+  padding: 100px;
+  text-align: center;
+}
+.Offer{
+  font-family: cursive;
+  font-size: 25px;
+  padding: 100px;
+  text-align: center;
+}
+/* div.Cntact{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+.WRAP{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ABTUS{
+  width: 50px;
+  height: 50px;
+}
+.PROF{
+  width: 170px;
+  height: 300px;
+  padding: 10px;
+  border-radius: 1000px;
+}
+.st{
+  border-right: 2px black solid;
+  height: 100%;
+}
+.profcont{
+  display: flex;
+  overflow: hidden;
+}
+.Profile:hover .PROF{
+  filter: blur(1.25px);
+}
+.Profile{
+position: relative;
+}
+.Profile span{
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 10;
+  transition: all 0.3s;
+  color: #ffff1a;
+}
+.Profile:hover span{
+  top: 50%;
+}
+ul{
+  display: flex;
+  align-items: stretch;
+}
+.SUBMIT{  
+    width: 100px;
+    border: none black solid;
+    border-radius: 30px;
+    background-color: aliceblue;
+    padding: 10px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}

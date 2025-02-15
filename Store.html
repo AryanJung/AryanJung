@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookstore</title>
+    <style>
+      body{
+  background: linear-gradient(to left, #3399ff 0%, #ff9966 100%);
+  position: relative;
+}
+.IMG{
+position: absolute;
+left: 0;
+bottom: 0;
+z-index: -2;
+opacity: 0.2;
+width: 100%;
+height: 100%;
+}
+      header {
+        background-color: #f4a688;
+        color: black;
+        text-align: center;
+        padding: 20px;
+        font-size: 20px;
+        font-style: italic;
+        font-family: fantasy;
+        position: relative;
+      }
+
+      .container {
+        margin: 0 auto;
+        padding: 20px;
+        /*width: 300px; to keep teh books in single line ...hatayo vane gonna be multiple*/
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between
+      }
+
+      .book {
+        background-color:transparent;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        width: 300px;
+        height: 450px;
+        margin-bottom: 20px;
+      }
+
+      .book img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      footer {
+        background-color: black;
+        color: white;
+        text-align: center;
+        padding: 5px;
+        font-size: 10px;
+        font-family: fantasy;
+      }
+      .YES {
+        position: absolute;
+        top: 55px;
+        right: 100px;
+        font-size: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+      }
+      .ICON {
+        position: relative;
+      }
+      .BEST {
+        font-size: 15px;
+        width: 20px;
+      }
+      .flip-box {
+    background-color: transparent;
+    width: fit-content;
+    border: 1px solid #f1f1f1;
+    perspective: 1000px;
+  }
+  
+  .flip-box-inner {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+  
+  .flip-box:hover .flip-box-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .flip-box-front, .flip-box-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  .flip-box-front {
+    background-color: #bbb;
+    color: black;
+  }
+  
+  .flip-box-back {
+    background-color: transparent;
+    color: black;
+    transform: rotateY(180deg);
+    font-family: fantasy;
+    font-size: 20px;
+  }
+  /* .FLIPA{
+    display: flex;
+    gap: 350px;
+  } */
+  button{
+    padding: 10px;
+    margin: 0.5px;
+    border-radius: 2rem;
+    background-color: transparent;
+  }
+  button.BUY{
+    height: 10px;
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .HOME{
+    font-size: 40px;
+}
+.Href{
+  text-decoration: none;
+}
+    </style>
+  </head>
+  <body><img src="book.png" alt="" class="IMG">
+    <a href="Html.html" class="HOME"><ion-icon name="home-outline"></ion-icon></a>
+    <header>
+      <h1>Welcome to Books_Online</h1>
+      <div class="YES">
+        <ion-icon name="cart-outline" class="ICON"></ion-icon
+        ><span class="BEST">5</span> 
+        <a href="Signin.html" class="Href"><button class="BUY">BUY</button></a>
+      </div>
+    </header>
+    <div class="container">
+      <div class="book">
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="wtbook.jpg" alt="Web Tech" />
+                <h2>Programming The World Wide Web</h2>
+            </div>
+            <div class="flip-box-back">
+              <p>Author: Robert W. Sebesta</p>
+                <p>Price: Rs<span>145.00</span></p>
+                <button class="button">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="book">
+          <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front">
+                <img src="oop.jpg" alt="Web Tech" />
+                <h2>Object Oriented Programming with C++</h2>
+              </div>
+              <div class="flip-box-back">
+                <p>Author: E Balagurusamy</p>
+                  <p>Price: Rs<span>152.00</span></p>
+                  <button class="button">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="book">
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="physics.jpg" alt="Web Tech" />
+              <h2>Advanced Physics</h2>
+            </div>
+            <div class="flip-box-back">
+              <p>Author: Prakash Neupane</p>
+               <p>Price: Rs<span>983.00</span></p>
+                <button class="button">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="book">
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="algebra.jpg" alt="Web Tech" />
+              <h2>Algebra and Geometry</h2>
+            </div>
+            <div class="flip-box-back">
+              
+            <p>Author: Dr Narayan Pd. Pahari</p>
+             <p>Price: Rs<span>41521.00</span></p>
+                <button class="button">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="book">
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="ct.jpg" alt="Web Tech" />
+              <h2>A Strategic Guide to Technical Communication</h2>
+            </div>
+            <div class="flip-box-back">
+              <p>Author: Heather Graves & Roger Graves</p>
+              <p>Price: Rs<span>564.00</span></p>
+                <button class="button">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="book">
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="english10.jpg" alt="Web Tech" />
+              <h2>Comprehensive English-Grade 10</h2>
+            </div>
+            <div class="flip-box-back">
+              <p>Author: Durga Pd. Bhatta</p>
+              <p>Price: Rs<span>850.00</span></p>
+                <button class="button">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="book">
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="english11.jpg" alt="Web Tech" />
+              <h2>English-Grade11</h2>
+            </div>
+            <div class="flip-box-back">
+              <p>Author: CDC</p>
+              <p>Price: Rs<span>125.00</span></p>
+                <button class="button">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="book">
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="math11.jpg" alt="Web Tech" />
+              <h2>Basic Mathematics</h2>
+            </div>
+            <div class="flip-box-back">
+              <p>Author: Bhanu Chandra Bajracharya</p>
+              <p>Price: Rs<span>625.00</span></p>
+                <button class="button">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="book">
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="alchemist.jpg" alt="The Alchemist">
+              <h2>The Alchemist</h2>
+            </div>
+            <div class="flip-box-back">
+              <p>Author:  Paulo Coelho</p>
+              <p>Price: Rs<span>450</span></p>
+                <button class="button">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+       <div class="book">
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="setodharti.jpg" alt="Seto Dharti">
+              <h2>Seto Dharti</h2>
+            </div>
+            <div class="flip-box-back">
+              <p>Author:Amar Neupane</p>
+              <p>Price: Rs<span>450.00</span></p>
+                <button class="button">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="book">
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="mockingbird.png" alt="To Kill A Mockingbird">
+              <h2>To Kill A Mockingbird</h2>
+            </div>
+            <div class="flip-box-back">
+              <p>Author: Harper Lee</p>
+              <p>Price: Rs<span>380.00</span></p>
+                <button class="button">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="book">
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="richdad.jpeg" alt="Rich Dad Poor Dad">
+              <h2>Rich Dad Poor Dad</h2>
+            </div>
+            <div class="flip-box-back">
+              <p>Author: Robert Kiyosaki</p>
+              <p>Price: Rs<span>785.00</span></p>
+                <button class="button">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <marquee behavior="loop" direction="right" scrollamount="10">
+        2022 &copy; Books_Online
+      </marquee>
+    </footer>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    <script>
+      let totalPrice = 0;
+      const CART = document.querySelector("button");
+      const cartNumber = document.querySelector(".BEST");
+      cartNumber.textContent = totalPrice;
+
+      function updateUI(price) {
+        cartNumber.textContent = price;
+      }
+
+      const container = document.querySelector(".container");
+      container.addEventListener("click", (e) => {
+        if (e.target.tagName === "BUTTON") {
+          const price = e.target
+            .closest(".book")
+            .querySelector("span").textContent;
+          totalPrice = totalPrice + Number(price);
+          updateUI(totalPrice);
+        }
+      });
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>
