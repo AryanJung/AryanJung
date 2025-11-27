@@ -16,4 +16,8 @@ My team and I developed this system to assist tourists and travelers in Nepal by
 
 3) **CometNote** :
 
-I developed CometNote which allows you to highlight any text on a webpage and save it quickly with a right-click. You can add comments to your saved snippets to remind yourself why you saved them. This helps organize important notes for future reference without hassle.
+I developed CometNote which allows you to highlight any text on a webpage and save it quickly with a right-click. You can add comments to your saved snippets to remind yourself why you saved them. This helps organize important notes for future reference without hassle. [My Website]([https://www.aryanjung.com.np/](https://github.com/AryanJung/CometNote))
+
+4) **UDP-Client-Server** :
+
+My team and I developed a terminal-based Todo List Server built in C using TCP sockets and pthreads. Each client connects via terminal, enters their username, and manages a personal todo list. [My Website]([https://www.aryanjung.com.np/](https://github.com/AryanJung/UDP_Project))
