@@ -53,7 +53,7 @@
     </style>
 </head>
 <body>
-    <a href="Html.html" class="HOME"><ion-icon name="home-outline"></ion-icon></a>
+    <a href="index.html" class="HOME"><ion-icon name="home-outline"></ion-icon></a>
        
     <form align="center" id="B" method="POST" enctype="multipart/form-data">
         <legend id="A" ><b>Register</b></legend>
