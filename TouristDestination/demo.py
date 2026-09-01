@@ -22,42 +22,45 @@ st.set_page_config(
 # Local Background Image Setup
 # ---------------------------
 def get_base64_image(image_file):
-    with open(image_file, "rb") as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
+    try:
+        with open(image_file, "rb") as f:
+            data = f.read()
+        return base64.b64encode(data).decode()
+    except Exception:
+        return ""
 
 base64_nepal = get_base64_image("nepal.png")
-st.markdown(f"""
-    <style>
-    .stApp {{
-        background-image: url("data:image/png;base64,{base64_nepal}");
-        background-size: cover;
-        background-attachment: fixed;
-    }}
-    .title {{
-        font-family: 'Helvetica Neue', sans-serif;
-        color: #FFFFFF;
-        font-size: 42px;
-        text-align: center;
-        margin-bottom: 10px;
-    }}
-    .subtitle {{
-        font-family: 'Helvetica Neue', sans-serif;
-        color: #FFD700;
-        font-size: 22px;
-        text-align: center;
-        margin-bottom: 20px;
-    }}
-    .recommendation-card {{
-        background-color: rgba(255, 255, 255, 0.95);
-        color: #333;
-        padding: 1rem;
-        border-radius: 12px;
-        margin: 0.5rem;
-    }}
-    
-    </style>
-""", unsafe_allow_html=True)
+if base64_nepal:
+    st.markdown(f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/png;base64,{base64_nepal}");
+            background-size: cover;
+            background-attachment: fixed;
+        }}
+        .title {{
+            font-family: 'Helvetica Neue', sans-serif;
+            color: #FFFFFF;
+            font-size: 42px;
+            text-align: center;
+            margin-bottom: 10px;
+        }}
+        .subtitle {{
+            font-family: 'Helvetica Neue', sans-serif;
+            color: #FFD700;
+            font-size: 22px;
+            text-align: center;
+            margin-bottom: 20px;
+        }}
+        .recommendation-card {{
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 1rem;
+            border-radius: 12px;
+            margin: 0.5rem;
+        }}
+        </style>
+    """, unsafe_allow_html=True)
 
 # ---------------------------
 # Sidebar Styling
@@ -65,12 +68,9 @@ st.markdown(f"""
 st.markdown("""
     <style>
     [data-testid="stSidebar"] {
-        background: linear-gradient(120deg, black , white);
+        background: linear-gradient(120deg, black, white);
         color: white;
         font-family: 'Helvetica Neue', sans-serif;
-    }
-    [data-testid="stSidebar"] .css-1d391kg {
-        padding: 1rem;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -89,10 +89,13 @@ def load_data():
     data["longitude"] = pd.to_numeric(data["longitude"], errors="coerce")
     
     # Process tags
-    data['tags'] = data['tags'].apply(
-        lambda x: ','.join([tag.strip().lower() for tag in str(x).split(',')]) 
-        if pd.notna(x) else np.nan
-    )
+    if 'tags' in data.columns:
+        data['tags'] = data['tags'].apply(
+            lambda x: ','.join([tag.strip().lower() for tag in str(x).split(',')]) 
+            if pd.notna(x) else np.nan
+        )
+    else:
+        data['tags'] = np.nan
     
     # Feature engineering
     feature_cols = ['culture', 'adventure', 'wildlife', 'sightseeing', 'history']
@@ -100,7 +103,7 @@ def load_data():
     data[feature_cols] = scaler.fit_transform(data[feature_cols])
     
     # Train ML model
-    data['popularity'] = data[feature_cols].mean(axis=1) + 0.1*data['culture']
+    data['popularity'] = data[feature_cols].mean(axis=1) + 0.1 * data['culture']
     X_train, X_test, y_train, y_test = train_test_split(
         data[feature_cols], data['popularity'], test_size=0.2, random_state=42
     )
@@ -117,12 +120,16 @@ def load_data():
 data, scaler, feature_cols, lgbm_model = load_data()
 
 # ---------------------------
-# Weather API
+# Weather API (Fixed for Streamlit Secrets)
 # ---------------------------
-def get_weather(lat, lon, api_key="WEATHER_API_KEY"):
+def get_weather(lat, lon):
     try:
         if pd.isna(lat) or pd.isna(lon):
             return "No weather data"
+        
+        # Safely pull API key from Streamlit secrets
+        api_key = st.secrets["WEATHER_API_KEY"]
+        
         url = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=metric"
         response = requests.get(url)
         response.raise_for_status()
@@ -130,7 +137,7 @@ def get_weather(lat, lon, api_key="WEATHER_API_KEY"):
         description = weather_data['weather'][0]['description'].capitalize()
         temp = weather_data['main']['temp']
         return f"{description}, {temp}°C"
-    except Exception as e:
+    except Exception:
         return "Weather unavailable"
 
 # ---------------------------
@@ -169,9 +176,10 @@ def recommend_destinations(user_preferences, input_destination, selected_tags, d
     similarity_scores = 0.7 * similarity_scores + 0.3 * data['ml_score']
     
     # Normalize final scores
-    similarity_scores = (similarity_scores - np.min(similarity_scores)) / (
-        np.max(similarity_scores) - np.min(similarity_scores) + 1e-8
-    )
+    min_score = np.min(similarity_scores)
+    max_score = np.max(similarity_scores)
+    if max_score - min_score > 0:
+        similarity_scores = (similarity_scores - min_score) / (max_score - min_score + 1e-8)
     
     data_copy = data.copy()
     data_copy['similarity'] = similarity_scores
@@ -182,7 +190,7 @@ def recommend_destinations(user_preferences, input_destination, selected_tags, d
     sorted_data = data_copy.sort_values(by='similarity', ascending=False)
     
     recommendations = []
-    for _, row in sorted_data.tail(top_n).iterrows():
+    for _, row in sorted_data.head(top_n).iterrows():
         lat, lon = row['latitude'], row['longitude']
         weather_info = get_weather(lat, lon)
         province_val = row.get('province', "")
@@ -201,7 +209,7 @@ def recommend_destinations(user_preferences, input_destination, selected_tags, d
 # UI Components
 # ---------------------------
 def generate_recommendations():
-    dest = st.session_state.input_destination.strip().lower() if st.session_state.input_destination else ""
+    dest = st.session_state.get("input_destination", "").strip().lower()
     prefs = st.session_state.get("user_preferences", None)
     tags = [tag.strip().lower() for tag in st.session_state.get("selected_tags", [])]
     recs = recommend_destinations(prefs, dest, tags, data)
@@ -209,8 +217,7 @@ def generate_recommendations():
 
 # Sidebar
 st.sidebar.header("Customize Recommendations")
-st.sidebar.text_input("Search destination:", key="input_destination", 
-                     on_change=generate_recommendations)
+st.sidebar.text_input("Search destination:", key="input_destination", on_change=generate_recommendations)
 
 add_preferences = st.sidebar.checkbox("Set preferences?")
 if add_preferences:
@@ -222,6 +229,8 @@ if add_preferences:
         "sightseeing": st.sidebar.slider("Sightseeing", 0, 5, 3),
         "history": st.sidebar.slider("History", 0, 5, 3)
     }
+else:
+    st.session_state.user_preferences = None
 
 add_tags = st.sidebar.checkbox("Add tags?")
 if add_tags:
@@ -234,11 +243,13 @@ if add_tags:
         "Select tags:", 
         [tag.title() for tag in all_tags]
     )
+else:
+    st.session_state.selected_tags = []
 
 st.sidebar.button("✨ Get Recommendations", on_click=generate_recommendations)
 
 # Main UI
-st.markdown("<div class='title'>🌍 Destination Recommender</div>", unsafe_allow_html=True)
+st.markdown("<div class='title'>🌍 Destination Recommender</div>", unsafe_allow_html=Up=True if False else True) # Safely structured title
 st.markdown("<div class='subtitle'>Find your next adventure!</div>", unsafe_allow_html=True)
 
 if "recommendations" in st.session_state and st.session_state.recommendations is not None:
