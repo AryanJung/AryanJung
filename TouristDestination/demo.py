@@ -1,10 +1,11 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import os
+import base64
+import requests
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import MinMaxScaler
-import requests
-import base64
 from sklearn.model_selection import train_test_split
 import lightgbm as lgbm
 
@@ -22,8 +23,10 @@ st.set_page_config(
 # Local Background Image Setup
 # ---------------------------
 def get_base64_image(image_file):
+    current_dir = os.path.dirname(__file__)
+    image_path = os.path.join(current_dir, image_file)
     try:
-        with open(image_file, "rb") as f:
+        with open(image_path, "rb") as f:
             data = f.read()
         return base64.b64encode(data).decode()
     except Exception:
@@ -80,7 +83,10 @@ st.markdown("""
 # ---------------------------
 @st.cache_data
 def load_data():
-    data = pd.read_csv("destinations_with_coordinates.csv")
+    current_dir = os.path.dirname(__file__)
+    csv_path = os.path.join(current_dir, "destinations_with_coordinates.csv")
+    
+    data = pd.read_csv(csv_path)
     
     # Clean and normalize data
     data.columns = data.columns.str.strip().str.lower()
@@ -88,7 +94,7 @@ def load_data():
     data["latitude"] = pd.to_numeric(data["latitude"], errors="coerce")
     data["longitude"] = pd.to_numeric(data["longitude"], errors="coerce")
     
-    # Process tags
+    # Process tags safely
     if 'tags' in data.columns:
         data['tags'] = data['tags'].apply(
             lambda x: ','.join([tag.strip().lower() for tag in str(x).split(',')]) 
@@ -127,7 +133,6 @@ def get_weather(lat, lon):
         if pd.isna(lat) or pd.isna(lon):
             return "No weather data"
         
-        # Safely pull API key from Streamlit secrets
         api_key = st.secrets["WEATHER_API_KEY"]
         
         url = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=metric"
@@ -249,7 +254,7 @@ else:
 st.sidebar.button("✨ Get Recommendations", on_click=generate_recommendations)
 
 # Main UI
-st.markdown("<div class='title'>🌍 Destination Recommender</div>", unsafe_allow_html=True) # Safely structured title
+st.markdown("<div class='title'>🌍 Destination Recommender</div>", unsafe_allow_html=True)
 st.markdown("<div class='subtitle'>Find your next adventure!</div>", unsafe_allow_html=True)
 
 if "recommendations" in st.session_state and st.session_state.recommendations is not None:
