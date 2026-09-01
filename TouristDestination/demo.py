@@ -249,7 +249,7 @@ else:
 st.sidebar.button("✨ Get Recommendations", on_click=generate_recommendations)
 
 # Main UI
-st.markdown("<div class='title'>🌍 Destination Recommender</div>", unsafe_allow_html=Up=True if False else True) # Safely structured title
+st.markdown("<div class='title'>🌍 Destination Recommender</div>", unsafe_allow_html=True) # Safely structured title
 st.markdown("<div class='subtitle'>Find your next adventure!</div>", unsafe_allow_html=True)
 
 if "recommendations" in st.session_state and st.session_state.recommendations is not None:
