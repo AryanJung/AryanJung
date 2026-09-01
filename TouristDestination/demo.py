@@ -119,7 +119,7 @@ data, scaler, feature_cols, lgbm_model = load_data()
 # ---------------------------
 # Weather API
 # ---------------------------
-def get_weather(lat, lon, api_key="13e12c96cea3ae958db69de1f4bf41bd"):
+def get_weather(lat, lon, api_key="WEATHER_API_KEY"):
     try:
         if pd.isna(lat) or pd.isna(lon):
             return "No weather data"
