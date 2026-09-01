@@ -33,48 +33,120 @@ def get_base64_image(image_file):
         return ""
 
 base64_nepal = get_base64_image("nepal.png")
-if base64_nepal:
-    st.markdown(f"""
-        <style>
-        .stApp {{
-            background-image: url("data:image/png;base64,{base64_nepal}");
-            background-size: cover;
-            background-attachment: fixed;
-        }}
-        .title {{
-            font-family: 'Helvetica Neue', sans-serif;
-            color: #FFFFFF;
-            font-size: 42px;
-            text-align: center;
-            margin-bottom: 10px;
-        }}
-        .subtitle {{
-            font-family: 'Helvetica Neue', sans-serif;
-            color: #FFD700;
-            font-size: 22px;
-            text-align: center;
-            margin-bottom: 20px;
-        }}
-        .recommendation-card {{
-            background-color: rgba(255, 255, 255, 0.95);
-            color: #333;
-            padding: 1rem;
-            border-radius: 12px;
-            margin: 0.5rem;
-        }}
-        </style>
-    """, unsafe_allow_html=True)
 
 # ---------------------------
-# Sidebar Styling
+# Professional Modern Styling (UI/UX Revamp)
 # ---------------------------
-st.markdown("""
+bg_style = f"""
+    background-image: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.75)), url("data:image/png;base64,{base64_nepal}");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+""" if base64_nepal else "background-color: #0f172a;"
+
+st.markdown(f"""
     <style>
-    [data-testid="stSidebar"] {
-        background: linear-gradient(120deg, black, white);
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+    .stApp {{
+        {bg_style}
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }}
+
+    /* Main Title & Subtitle */
+    .main-title-container {{
+        text-align: center;
+        padding: 2rem 1rem 0.5rem 1rem;
+    }}
+    .title {{
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        color: #FFFFFF;
+        font-size: 46px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        margin-bottom: 5px;
+        text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }}
+    .subtitle {{
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        color: #F59E0B;
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 2rem;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }}
+
+    /* Glassmorphism Recommendation Cards */
+    .recommendation-card {{
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        color: #1E293B;
+        padding: 1.5rem;
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        margin: 0.75rem 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }}
+    .recommendation-card:hover {{
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        background: rgba(255, 255, 255, 0.95);
+    }}
+    .card-title {{
+        font-size: 22px;
+        font-weight: 700;
+        color: #0F172A;
+        margin-bottom: 8px;
+    }}
+    .card-badge {{
+        display: inline-block;
+        background: #F1F5F9;
+        color: #475569;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }}
+    .card-metric {{
+        font-size: 14px;
+        color: #334155;
+        margin: 6px 0;
+    }}
+
+    /* Sidebar Clean Styling */
+    [data-testid="stSidebar"] {{
+        background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%);
+        color: #F8FAFC;
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+    }}
+    [data-testid="stSidebar"] .stMarkdown h2, 
+    [data-testid="stSidebar"] .stMarkdown h3, 
+    [data-testid="stSidebar"] label {{
+        color: #F8FAFC !important;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }}
+
+    /* Custom Buttons */
+    .stButton > button {{
+        background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
         color: white;
-        font-family: 'Helvetica Neue', sans-serif;
-    }
+        border: none;
+        border-radius: 12px;
+        padding: 0.6rem 1.2rem;
+        font-weight: 600;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+        transition: all 0.2s ease;
+        width: 100%;
+    }}
+    .stButton > button:hover {{
+        background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+        box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+        color: white;
+    }}
     </style>
 """, unsafe_allow_html=True)
 
@@ -126,7 +198,7 @@ def load_data():
 data, scaler, feature_cols, lgbm_model = load_data()
 
 # ---------------------------
-# Weather API (Fixed for Streamlit Secrets)
+# Weather API (Safe Streamlit Secrets)
 # ---------------------------
 def get_weather(lat, lon):
     try:
@@ -140,7 +212,7 @@ def get_weather(lat, lon):
         response.raise_for_status()
         weather_data = response.json()
         description = weather_data['weather'][0]['description'].capitalize()
-        temp = weather_data['main']['temp']
+        temp = round(weather_data['main']['temp'])
         return f"{description}, {temp}°C"
     except Exception:
         return "Weather unavailable"
@@ -203,15 +275,15 @@ def recommend_destinations(user_preferences, input_destination, selected_tags, d
             province_val = f"Province {province_val}"
         recommendations.append({
             "Destination": row['pname'].title(),
-            "Similarity": round(row['similarity'], 3),
-            "Tags": row['tags'].title() if pd.notna(row['tags']) else "",
+            "Similarity": round(row['similarity'] * 100, 1), # Express as percentage for better UX
+            "Tags": row['tags'].title() if pd.notna(row['tags']) else "General",
             "Weather": weather_info,
             "Province": province_val
         })
     return pd.DataFrame(recommendations)
 
 # ---------------------------
-# UI Components
+# UI Components & Flow
 # ---------------------------
 def generate_recommendations():
     dest = st.session_state.get("input_destination", "").strip().lower()
@@ -220,13 +292,14 @@ def generate_recommendations():
     recs = recommend_destinations(prefs, dest, tags, data)
     st.session_state.recommendations = recs
 
-# Sidebar
-st.sidebar.header("Customize Recommendations")
-st.sidebar.text_input("Search destination:", key="input_destination", on_change=generate_recommendations)
+# Sidebar Design
+st.sidebar.markdown("### 🎛️ Customize Trip")
+st.sidebar.text_input("🔍 Search destination:", key="input_destination", on_change=generate_recommendations)
 
-add_preferences = st.sidebar.checkbox("Set preferences?")
+st.sidebar.markdown("---")
+add_preferences = st.sidebar.checkbox("⭐ Set category preferences?")
 if add_preferences:
-    st.sidebar.subheader("Your Preferences")
+    st.sidebar.markdown("##### Adjust Interest Sliders")
     st.session_state.user_preferences = {
         "culture": st.sidebar.slider("Culture", 0, 5, 3),
         "adventure": st.sidebar.slider("Adventure", 0, 5, 3),
@@ -237,7 +310,8 @@ if add_preferences:
 else:
     st.session_state.user_preferences = None
 
-add_tags = st.sidebar.checkbox("Add tags?")
+st.sidebar.markdown("---")
+add_tags = st.sidebar.checkbox("🏷️ Filter by tags?")
 if add_tags:
     all_tags = sorted(list(set(
         tag.strip().lower()
@@ -251,30 +325,39 @@ if add_tags:
 else:
     st.session_state.selected_tags = []
 
+st.sidebar.markdown("<br>", unsafe_allow_html=True)
 st.sidebar.button("✨ Get Recommendations", on_click=generate_recommendations)
 
-# Main UI
-st.markdown("<div class='title'>🌍 Destination Recommender</div>", unsafe_allow_html=True)
-st.markdown("<div class='subtitle'>Find your next adventure!</div>", unsafe_allow_html=True)
+# Main UI Header
+st.markdown("""
+    <div class="main-title-container">
+        <div class="title">🌍 Destination Recommender</div>
+        <div class="subtitle">Discover your next unforgettable journey</div>
+    </div>
+""", unsafe_allow_html=True)
 
+# Main Content Grid Display
 if "recommendations" in st.session_state and st.session_state.recommendations is not None:
     recs = st.session_state.recommendations
     if not recs.empty:
-        st.subheader("Top Recommendations")
+        st.markdown("### ✨ Top Recommendations For You")
         cols = st.columns(3)
         for i, (_, row) in enumerate(recs.iterrows()):
             with cols[i % 3]:
-                st.markdown(f"""<div class="recommendation-card">
-                    <strong>{row['Destination']}</strong><br>
-                    {"📍 " + row['Province'] if row.get("Province") else ""}<br>
-                    <strong>Match Score:</strong> {row['Similarity']}<br>
-                    <strong>Tags:</strong> {row['Tags']}<br>
-                    <strong>Weather:</strong> {row['Weather']}
-                </div>""", unsafe_allow_html=True)
+                province_display = f"📍 {row['Province']}" if row.get("Province") else "📍 Explore Region"
+                st.markdown(f"""
+                    <div class="recommendation-card">
+                        <div class="card-title">{row['Destination']}</div>
+                        <div class="card-badge">{province_display}</div>
+                        <div class="card-metric">🔥 <b>Match Score:</b> {row['Similarity']}%</div>
+                        <div class="card-metric">🏷️ <b>Tags:</b> {row['Tags']}</div>
+                        <div class="card-metric">🌤️ <b>Weather:</b> {row['Weather']}</div>
+                    </div>
+                """, unsafe_allow_html=True)
     else:
-        st.warning("No recommendations found. Try different inputs.")
+        st.warning("No recommendations found matching your specific inputs. Try modifying your filters.")
 else:
-    st.info("Enter a destination or set preferences to get recommendations")
+    st.info("👋 Welcome! Search a destination or set your preferences in the sidebar to reveal custom recommendations.")
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("💡 **Tip:** Combine different filters for better results!")
+st.sidebar.markdown("<div style='text-align: center; color: #94A3B8; font-size: 12px;'>Powered by Machine Learning & Streamlit</div>", unsafe_allow_html=True)
